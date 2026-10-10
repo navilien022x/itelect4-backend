@@ -9,6 +9,8 @@ Install dependencies, copy `.env.example` to `.env`, and configure:
 - `MONGODB_URI` - MongoDB connection string
 - `JWT_SECRET` - random secret of at least 32 characters
 - `PORT` - API port (defaults to `5000`)
+- `DNS_SERVERS` - optional comma-separated DNS resolver IPs if the system resolver
+  refuses MongoDB SRV lookups
 
 Run the development server with `npm run dev`. Run `npm run build` to compile
 the TypeScript backend and `npm start` to run the compiled server.
@@ -16,7 +18,7 @@ the TypeScript backend and `npm start` to run the compiled server.
 ## API
 
 - `POST /api/auth/register` and `POST /api/auth/login` issue a one-day JWT.
-- `GET /api/health` checks API availability.
+- `GET /` confirms the API is running.
 - `GET /api/orders` lists the signed-in user's orders.
 - `GET /api/orders/:id` retrieves one of the signed-in user's orders.
 - `POST /api/orders` creates an order for the signed-in user.
@@ -27,3 +29,9 @@ All order endpoints require `Authorization: Bearer <token>`. The order schema
 requires at least one food item ID, limits the total amount to non-negative
 values, restricts status to `0` (Placed), `1` (Preparing), or `2`
 (ReadyForPickup), and limits notes to 200 characters.
+
+If startup reports `querySrv ECONNREFUSED`, check the local DNS server with
+`node -e "console.log(require('node:dns').getServers())"`. Set `DNS_SERVERS` in
+`.env` to a resolver that can look up the Atlas SRV record, then restart the API.
+If Atlas reports `bad auth`, update the MongoDB database user's credentials in
+`MONGODB_URI`; URL-encode special characters in the username or password.
