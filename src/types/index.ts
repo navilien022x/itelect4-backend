@@ -1,5 +1,5 @@
 export interface User {
-  id: number
+  id: string
   name: string
   email: string
   role: 'student' | 'vendor_admin'
@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface FoodItem {
-  id: number
+  id: string
   name: string
   description: string
   price: number
@@ -16,9 +16,9 @@ export interface FoodItem {
 }
 
 export interface Order {
-  id: number
-  userId: number
-  foodItemIds: number[]
+  id: string
+  userId: string
+  foodItemIds: string[]
   totalAmount: number
   status: OrderStatus
   createdAt: Date
@@ -39,10 +39,6 @@ export interface ApiResponse<T> {
   message?: string
 }
 
-export type ApiUser = Omit<User, 'id'> & { id: string }
-export type ApiOrder = Omit<Order, 'id' | 'userId' | 'foodItemIds' | 'createdAt'> & {
-  id: string
-  userId: string
-  foodItemIds: string[]
-  createdAt: string
-}
+export type ApiUser = User
+export type ApiFoodItem = FoodItem
+export type ApiOrder = Omit<Order, 'createdAt'> & { createdAt: string }

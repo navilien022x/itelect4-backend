@@ -8,17 +8,23 @@ Install dependencies, copy `.env.example` to `.env`, and configure:
 
 - `MONGODB_URI` - MongoDB connection string
 - `JWT_SECRET` - random secret of at least 32 characters
+- `CORS_ORIGIN` - comma-separated list of allowed frontend origins
 - `PORT` - API port (defaults to `5000`)
 - `DNS_SERVERS` - optional comma-separated DNS resolver IPs if the system resolver
   refuses MongoDB SRV lookups
 
 Run the development server with `npm run dev`. Run `npm run build` to compile
 the TypeScript backend and `npm start` to run the compiled server.
+Run `npm run seed` to idempotently populate the food catalog. Database
+connections are opened by request middleware for both the server and Vercel
+function entry point in `api/index.ts`.
 
 ## API
 
 - `POST /api/auth/register` and `POST /api/auth/login` issue a one-day JWT.
 - `GET /` confirms the API is running.
+- `GET /api/health` reports whether MongoDB is connected.
+- `GET /api/food-items` and `GET /api/food-items/:id` read the public catalog.
 - `GET /api/orders` lists the signed-in user's orders.
 - `GET /api/orders/:id` retrieves one of the signed-in user's orders.
 - `POST /api/orders` creates an order for the signed-in user.
