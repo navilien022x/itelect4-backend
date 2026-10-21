@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import { FoodItemModel } from './models/FoodItem'
+import { configureDnsServers } from './utils/dns'
 
 const foodItems = [
   {
@@ -51,6 +52,7 @@ async function seedFoodItems(): Promise<void> {
     throw new Error('MONGODB_URI is not configured.')
   }
 
+  configureDnsServers()
   await mongoose.connect(mongoUri)
   await FoodItemModel.bulkWrite(
     foodItems.map(({ _id, ...foodItem }) => ({

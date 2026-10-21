@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express'
-import dns from 'node:dns'
 import mongoose from 'mongoose'
+import { configureDnsServers } from '../utils/dns'
 
 let connectionPromise: Promise<typeof mongoose> | undefined
 
@@ -17,14 +17,7 @@ export const connectToDatabase: RequestHandler = async (_req, _res, next) => {
   }
 
   if (!connectionPromise) {
-    const dnsServers = process.env.DNS_SERVERS
-      ?.split(',')
-      .map((server) => server.trim())
-      .filter(Boolean)
-    if (dnsServers && dnsServers.length > 0) {
-      dns.setServers(dnsServers)
-    }
-
+    configureDnsServers()
     connectionPromise = mongoose.connect(mongoUri).catch((error: unknown) => {
       connectionPromise = undefined
       throw error
