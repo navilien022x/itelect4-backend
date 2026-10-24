@@ -45,3 +45,10 @@ If startup reports `querySrv ECONNREFUSED`, check the local DNS server with
 `.env` to a resolver that can look up the Atlas SRV record, then restart the API.
 If Atlas reports `bad auth`, update the MongoDB database user's credentials in
 `MONGODB_URI`; URL-encode special characters in the username or password.
+
+## Project Links
+
+- Backend repository: https://github.com/navilien022x/itelect4-backend
+- Frontend repository: https://github.com/navilien022x/Atienza-IT4B-Project
+- Backend live API: https://itelect4-backend-cyan.vercel.app
+- Frontend live app: https://atienza-it4b-project.vercel.app
