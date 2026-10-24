@@ -132,7 +132,14 @@ const generateSuggestions: RequestHandler = async (req, res) => {
       return
     }
 
-    console.error('Gemini request failed.', error instanceof Error ? error.name : 'Unknown error')
+    const errorDetails =
+      error instanceof ApiError
+        ? {
+            status: error.status,
+            message: error.message.replaceAll(apiKey, '[REDACTED]').slice(0, 500),
+          }
+        : { type: error instanceof Error ? error.name : 'Unknown error' }
+    console.error('Gemini request failed.', errorDetails)
     res.status(502).json({ message: 'AI service is temporarily unavailable.' })
     return
   }
