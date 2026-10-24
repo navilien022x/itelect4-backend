@@ -42,3 +42,13 @@ export interface ApiResponse<T> {
 export type ApiUser = User
 export type ApiFoodItem = FoodItem
 export type ApiOrder = Omit<Order, 'createdAt'> & { createdAt: string }
+
+export type AiReply = {
+  summary: string
+  recommendations: {
+    name: string
+    description: string
+    category: 'quick' | 'balanced' | 'comfort'
+  }[]
+  tips: string[]
+}
