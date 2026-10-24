@@ -10,6 +10,7 @@ Install dependencies, copy `.env.example` to `.env`, and configure:
 - `JWT_SECRET` - random secret of at least 32 characters
 - `CORS_ORIGIN` - comma-separated list of allowed frontend origins
 - `PORT` - API port (defaults to `5000`)
+- `GEMINI_API_KEY` - Google Gemini API key for the authenticated AI assistant
 - `DNS_SERVERS` - optional comma-separated DNS resolver IPs if the system resolver
   refuses MongoDB SRV lookups
 
@@ -30,6 +31,9 @@ function entry point in `api/index.ts`.
 - `POST /api/orders` creates an order for the signed-in user.
 - `PUT /api/orders/:id` updates one of the signed-in user's orders.
 - `DELETE /api/orders/:id` deletes one of the signed-in user's orders.
+- `POST /api/ai` returns campus food suggestions based on the signed-in user's
+  prompt. Prompts must contain 20-2000 non-whitespace characters. Requests are
+  limited per authenticated user.
 
 All order endpoints require `Authorization: Bearer <token>`. The order schema
 requires at least one food item ID, limits the total amount to non-negative

@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import authRoutes from './routes/auth'
+import aiRoutes from './routes/ai'
 import foodItemRoutes from './routes/foodItems'
 import orderRoutes from './routes/orders'
 import { authenticate } from './middleware/auth'
@@ -42,6 +43,7 @@ app.get('/', (_req, res) => {
   })
 })
 app.use('/api/auth', authRoutes)
+app.use('/api/ai', authenticate, aiRoutes)
 app.use('/api/food-items', foodItemRoutes)
 app.use('/api/orders', authenticate, orderRoutes)
 app.use(errorHandler)

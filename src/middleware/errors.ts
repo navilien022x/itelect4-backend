@@ -1,7 +1,22 @@
 import type { ErrorRequestHandler } from 'express'
 import mongoose from 'mongoose'
 
-export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
+  if (res.headersSent) {
+    next(error)
+    return
+  }
+
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'type' in error &&
+    error.type === 'entity.parse.failed'
+  ) {
+    res.status(400).json({ message: 'Request body must be valid JSON.' })
+    return
+  }
+
   if (error instanceof mongoose.Error.ValidationError || error instanceof mongoose.Error.CastError) {
     res.status(400).json({ message: error.message })
     return
