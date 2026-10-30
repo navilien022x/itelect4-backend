@@ -1,5 +1,7 @@
 # ITElect4 Backend
 
+![CI](https://github.com/navilien022x/itelect4-backend/actions/workflows/ci.yml/badge.svg?branch=main)
+
 Express and MongoDB API for the Campus Food Pre-Order System.
 
 ## Setup
